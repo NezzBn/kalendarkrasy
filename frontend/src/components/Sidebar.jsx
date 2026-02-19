@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Moon, Star, Calendar } from 'lucide-react';
+import { ChevronRight, Moon, Star, Calendar, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { sidebarLinks, moonPhases, zodiacSigns } from '../mockData';
+import { moonPhasesAPI, sidebarLinksAPI } from '../services/api';
+import { zodiacSigns } from '../mockData';
 
 const Sidebar = () => {
+  const [moonPhases, setMoonPhases] = useState([]);
+  const [sidebarLinks, setSidebarLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const [phasesData, linksData] = await Promise.all([
+        moonPhasesAPI.getAll(),
+        sidebarLinksAPI.getAll()
+      ]);
+      setMoonPhases(phasesData);
+      setSidebarLinks(linksData);
+    } catch (err) {
+      console.error('Error fetching sidebar data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-10">
+        <Loader2 className="w-6 h-6 text-cyan-500 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <aside className="space-y-6">
       {/* Moon Phases */}
@@ -18,7 +51,7 @@ const Sidebar = () => {
         <CardContent className="pt-6">
           <div className="space-y-3">
             {moonPhases.map((phase, index) => (
-              <div key={index} className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer">
+              <div key={phase.id || phase._id || index} className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer">
                 <div>
                   <p className="font-medium text-slate-900">{phase.phase}</p>
                   <p className="text-sm text-slate-500">{phase.date}</p>
@@ -60,7 +93,7 @@ const Sidebar = () => {
 
       {/* Sidebar Links */}
       {sidebarLinks.map((section, index) => (
-        <Card key={index} className="border-slate-200 shadow-sm">
+        <Card key={section.id || section._id || index} className="border-slate-200 shadow-sm">
           <CardHeader className="bg-slate-50">
             <CardTitle className="text-base text-slate-900">{section.title}</CardTitle>
           </CardHeader>
