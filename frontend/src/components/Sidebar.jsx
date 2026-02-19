@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Moon, Star, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { sidebarLinks, moonPhases, zodiacSigns } from '../mockData';
 
@@ -11,7 +11,7 @@ const Sidebar = () => {
       <Card className="border-slate-200 shadow-sm">
         <CardHeader className="bg-gradient-to-r from-slate-50 to-cyan-50">
           <CardTitle className="text-lg flex items-center">
-            <span className="text-2xl mr-2">🌙</span>
+            <Moon className="w-5 h-5 mr-2 text-cyan-600" />
             Фази Місяця
           </CardTitle>
         </CardHeader>
@@ -23,8 +23,8 @@ const Sidebar = () => {
                   <p className="font-medium text-slate-900">{phase.phase}</p>
                   <p className="text-sm text-slate-500">{phase.date}</p>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
-                  🌕
+                <div className="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center">
+                  <Moon className="w-5 h-5 text-cyan-600" />
                 </div>
               </div>
             ))}
@@ -36,7 +36,7 @@ const Sidebar = () => {
       <Card className="border-slate-200 shadow-sm">
         <CardHeader className="bg-gradient-to-r from-slate-50 to-purple-50">
           <CardTitle className="text-lg flex items-center">
-            <span className="text-2xl mr-2">♈</span>
+            <Star className="w-5 h-5 mr-2 text-purple-600" />
             Гороскоп
           </CardTitle>
         </CardHeader>
@@ -49,7 +49,7 @@ const Sidebar = () => {
                 className="flex flex-col items-center p-3 rounded-lg hover:bg-slate-50 transition-all duration-200 hover:shadow-md group"
               >
                 <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-2 group-hover:bg-purple-200 transition-colors">
-                  <span className="text-2xl">♈</span>
+                  <Star className="w-6 h-6 text-purple-600" />
                 </div>
                 <span className="text-xs font-medium text-slate-700 text-center">{sign.name}</span>
               </Link>
